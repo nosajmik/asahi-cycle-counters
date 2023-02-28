@@ -1,0 +1,1 @@
+cmd_/home/jason/Documents/asahi-cycle-counters/Module.symvers := sed 's/ko$$/o/' /home/jason/Documents/asahi-cycle-counters/modules.order | scripts/mod/modpost -m -a  -o /home/jason/Documents/asahi-cycle-counters/Module.symvers -e -i Module.symvers   -T -
