@@ -1,1 +1,1 @@
-cmd_/home/jason/Documents/asahi-cycle-counters/modules.order := {   echo /home/jason/Documents/asahi-cycle-counters/enable_pmu.ko; :; } | awk '!x[$$0]++' - > /home/jason/Documents/asahi-cycle-counters/modules.order
+cmd_/home/test/Desktop/asahi-cycle-counters/modules.order := {   echo /home/test/Desktop/asahi-cycle-counters/enable_pmu.ko; :; } > /home/test/Desktop/asahi-cycle-counters/modules.order
