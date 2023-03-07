@@ -45,6 +45,12 @@ inline __attribute__((always_inline)) uint64_t time_load(void *ptr) {
     return after - before;
 }
 
+inline __attribute__((always_inline)) uint64_t load_nontemporal(void *ptr) {
+    uint64_t trash1, trash2;
+    asm volatile("ldnp %0, %1, [%2]" : "=r" (trash1), "=r" (trash2) : "r" (ptr) : "memory");
+    return trash1 + trash2;
+}
+
 // Uses 24 MHz (42.67 ns) unprivileged timer.
 inline __attribute__((always_inline)) uint64_t time_load_coarse(void *ptr) {
     uint64_t before, after;
@@ -92,6 +98,13 @@ int main() {
         misses[i] = time_load(ptr);
     }
 
+    uint64_t nontemporal[TRIALS];
+    for (int i = 0; i < TRIALS; i++) {
+        serialized_flush(ptr);
+        load_nontemporal(ptr);
+        nontemporal[i] = time_load(ptr);
+    }
+
     printf("Hits: ");
     for (int i = 0; i < TRIALS; i++) {
         printf("%llu ", hits[i]);
@@ -99,6 +112,10 @@ int main() {
     printf("\n\nMisses: ");
     for (int i = 0; i < TRIALS; i++) {
         printf("%llu ", misses[i]);
+    }
+    printf("\n\nNontemporal Loads: ");
+    for (int i = 0; i < TRIALS; i++) {
+        printf("%llu ", nontemporal[i]);
     }
     printf("\n");
 
