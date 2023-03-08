@@ -231,18 +231,18 @@ Disassembly of section .text:
  9e4:	mov	w9, #0x41                  	// #65
  9e8:	add	x10, x19, #0x0
  9ec:	add	x11, x19, #0x4
- 9f0:	strb	w9, [x19, #4]
- 9f4:	dc	civac, x10
- 9f8:	isb
- 9fc:	dsb	ish
- a00:	dc	civac, x11
- a04:	isb
- a08:	dsb	ish
- a0c:	isb
- a10:	mrs	x13, s3_2_c15_c0_0
- a14:	isb
- a18:	ldrb	w14, [x19]
- a1c:	mov	x12, xzr
+ 9f0:	mov	x12, xzr
+ 9f4:	strb	w9, [x19, #4]
+ 9f8:	dc	civac, x10
+ 9fc:	isb
+ a00:	dsb	ish
+ a04:	dc	civac, x11
+ a08:	isb
+ a0c:	dsb	ish
+ a10:	isb
+ a14:	mrs	x13, s3_2_c15_c0_0
+ a18:	isb
+ a1c:	ldrb	w14, [x19]
  a20:	mul	x14, x14, x12
  a24:	ldrb	wzr, [x14, x11]
  a28:	dsb	ish

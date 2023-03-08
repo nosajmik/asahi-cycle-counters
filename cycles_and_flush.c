@@ -88,7 +88,7 @@ inline __attribute__((always_inline)) uint64_t time_mulbyzero(void *ptr) {
     // rax *= 0; emits as str xzr, not mul.
 
     // Multiply-by-zero to clear.
-    asm volatile("mul %0, %0, %1" : "=&r" (rax) : "r" (rcx) : "memory");
+    asm volatile("mul %0, %0, %1" : "=&r" (rax) : "r" (rcx));
 
     // Add to another reg, then load.
     rcx += rax;
@@ -123,7 +123,7 @@ inline __attribute__((always_inline)) uint64_t time_xor(void *ptr) {
     rax = *(volatile char *)ptr;
 
     // Xor-with-itself to clear.
-    asm volatile("eor %0, %0, %0" : "=&r" (rax) :: "memory");
+    asm volatile("eor %0, %0, %0" : "=&r" (rax));
 
     // Add to another reg, then load.
     rcx += rax;
