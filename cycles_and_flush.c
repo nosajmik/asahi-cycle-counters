@@ -96,7 +96,9 @@ inline __attribute__((always_inline)) uint64_t time_mulbyzero(void *ptr) {
 
     asm volatile("dsb ish; isb sy; mrs %0, S3_2_c15_c0_0; isb sy" : "=r" (after));
     
-    return after - before;
+    // Prevent load to xzr/wzr (zero register in aarch64).
+    // rax = 0 and trash = 'A' whose ASCII value is 65.
+    return trash + rax + after - before - 65;
 }
 
 // Load register from flushed address, then xor
@@ -131,7 +133,9 @@ inline __attribute__((always_inline)) uint64_t time_xor(void *ptr) {
 
     asm volatile("dsb ish; isb sy; mrs %0, S3_2_c15_c0_0; isb sy" : "=r" (after));
 
-    return after - before;
+    // Prevent load to xzr/wzr (zero register in aarch64).
+    // rax = 0 and trash = 'A' whose ASCII value is 65.
+    return trash + rax + after - before - 65;
 }
 
 int main() {
