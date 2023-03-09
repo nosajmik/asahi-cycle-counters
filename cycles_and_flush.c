@@ -67,11 +67,12 @@ inline __attribute__((always_inline)) uint64_t time_load_coarse(void *ptr) {
 // register by zero to clear. Then, add it to another
 // register and load from the resulting address, which
 // is also flushed. Returns the time for the entire routine.
-inline __attribute__((always_inline)) uint64_t time_mulbyzero(void *ptr) {
+uint64_t time_mul(void *ptr, uint64_t val) {
     // Need register keyword to avoid ldr/str from and to stack.
     // Compile with Clang. gcc combines rax and rcx into x1.
-    register uint64_t rax = 0, rcx = 0, before, after;
-    volatile char c = 'A';
+    register uint64_t rax = 0, rcx = val, before, after;
+    // Ensure 'A' loads when rcx = 0 or 1.
+    static char c[3] = "AA";
     register uint64_t second_ptr = (uint64_t)&c;
     register char trash;
 
@@ -80,6 +81,8 @@ inline __attribute__((always_inline)) uint64_t time_mulbyzero(void *ptr) {
     // is miss latency * 1.
     serialized_flush(ptr);
     serialized_flush((void *)second_ptr);
+
+    // printf("%p %p\n", ptr, second_ptr);
 
     asm volatile("isb sy; mrs %0, S3_2_c15_c0_0; isb sy" : "=r" (before));
 
@@ -91,25 +94,26 @@ inline __attribute__((always_inline)) uint64_t time_mulbyzero(void *ptr) {
     asm volatile("mul %0, %0, %1" : "=&r" (rax) : "r" (rcx));
 
     // Add to another reg, then load.
-    rcx += rax;
+    rcx += !(rax & 1);
     trash = *(volatile char *)(second_ptr + rcx);
 
     asm volatile("dsb ish; isb sy; mrs %0, S3_2_c15_c0_0; isb sy" : "=r" (after));
     
     // Prevent load to xzr/wzr (zero register in aarch64).
     // rax = 0 and trash = 'A' whose ASCII value is 65.
-    return trash + rax + after - before - 65;
+    // printf("%c\n", trash); // sanity check for 'A'
+    return trash + (rax & 1) + after - before - 65;
 }
 
 // Load register from flushed address, then xor
 // register by itself to clear. Then, add it to another
 // register and load from the resulting address, which
 // is also flushed. Returns the time for the entire routine.
-inline __attribute__((always_inline)) uint64_t time_xor(void *ptr) {
+uint64_t time_xor(void *ptr) {
     // Need register keyword to avoid ldr/str from and to stack.
     // Compile with Clang. gcc combines rax and rcx into x1.
     register uint64_t rax = 0, rcx = 0, before, after;
-    volatile char c = 'A';
+    static char c = 'A';
     register uint64_t second_ptr = (uint64_t)&c;
     register char trash;
 
@@ -118,6 +122,8 @@ inline __attribute__((always_inline)) uint64_t time_xor(void *ptr) {
     // is miss latency * 1.
     serialized_flush(ptr);
     serialized_flush((void *)second_ptr);
+
+    // printf("%p %p\n", ptr, second_ptr);
 
     asm volatile("isb sy; mrs %0, S3_2_c15_c0_0; isb sy" : "=r" (before));
 
@@ -187,10 +193,14 @@ int main() {
 
     // Test if register clear with xor vs. with mul 0
     // allows loads to be issued on parallel on the M1.
-    // Currently, it looks like no difference.
     uint64_t mulbyzero[TRIALS];
     for (int i = 0; i < TRIALS; i++) {
-        mulbyzero[i] = time_mulbyzero(ptr);
+        mulbyzero[i] = time_mul(ptr, 0);
+    }
+
+    uint64_t mulbyone[TRIALS];
+    for (int i = 0; i < TRIALS; i++) {
+        mulbyone[i] = time_mul(ptr, 1);
     }
 
     uint64_t xor[TRIALS];
@@ -213,6 +223,10 @@ int main() {
     printf("\n\nMultiply by zero: ");
     for (int i = 0; i < TRIALS; i++) {
         printf("%lu ", mulbyzero[i]);
+    }
+    printf("\n\nMultiply by one: ");
+    for (int i = 0; i < TRIALS; i++) {
+        printf("%lu ", mulbyone[i]);
     }
     printf("\n\nXor with itself: ");
     for (int i = 0; i < TRIALS; i++) {
