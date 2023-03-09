@@ -75,6 +75,7 @@ uint64_t time_mul(void *ptr, uint64_t val) {
     static char c[3] = "AA";
     register uint64_t second_ptr = (uint64_t)&c;
     register char trash;
+    register uint64_t junk;
 
     // Flush both. If loads execute serially, runtime should
     // be approx. miss latency * 2. If parallelized, runtime
@@ -91,10 +92,11 @@ uint64_t time_mul(void *ptr, uint64_t val) {
     // rax *= 0; emits as str xzr, not mul.
 
     // Multiply-by-zero to clear.
-    asm volatile("mul %0, %0, %1" : "=&r" (rax) : "r" (rcx));
+    asm volatile("mul %0, %1, %1" : "=&r" (junk) : "r" (rax), "r" (rcx));
 
     // Add to another reg, then load.
-    rcx += !(rax & 1);
+    rcx += !(junk & 1);
+    // printf("%lx\n", rcx); 
     trash = *(volatile char *)(second_ptr + rcx);
 
     asm volatile("dsb ish; isb sy; mrs %0, S3_2_c15_c0_0; isb sy" : "=r" (after));

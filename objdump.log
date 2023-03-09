@@ -16,7 +16,7 @@ Disassembly of section .plt:
 
 0000000000000700 <.plt>:
  700:	stp	x16, x30, [sp, #-16]!
- 704:	adrp	x16, 11000 <__FRAME_END__+0x1009c>
+ 704:	adrp	x16, 11000 <__FRAME_END__+0x10094>
  708:	ldr	x17, [x16, #4088]
  70c:	add	x16, x16, #0xff8
  710:	br	x17
@@ -70,7 +70,7 @@ Disassembly of section .text:
  790:	ldr	x1, [sp]
  794:	add	x2, sp, #0x8
  798:	mov	x6, sp
- 79c:	adrp	x0, 11000 <__FRAME_END__+0x1009c>
+ 79c:	adrp	x0, 11000 <__FRAME_END__+0x10094>
  7a0:	ldr	x0, [x0, #4056]
  7a4:	mov	x3, #0x0                   	// #0
  7a8:	mov	x4, #0x0                   	// #0
@@ -78,7 +78,7 @@ Disassembly of section .text:
  7b0:	bl	750 <abort@plt>
 
 00000000000007b4 <call_weak_fn>:
- 7b4:	adrp	x0, 11000 <__FRAME_END__+0x1009c>
+ 7b4:	adrp	x0, 11000 <__FRAME_END__+0x10094>
  7b8:	ldr	x0, [x0, #4040]
  7bc:	cbz	x0, 7c4 <call_weak_fn+0x10>
  7c0:	b	740 <__gmon_start__@plt>
@@ -93,7 +93,7 @@ Disassembly of section .text:
  7dc:	add	x1, x1, #0x48
  7e0:	cmp	x1, x0
  7e4:	b.eq	7fc <deregister_tm_clones+0x2c>  // b.none
- 7e8:	adrp	x1, 11000 <__FRAME_END__+0x1009c>
+ 7e8:	adrp	x1, 11000 <__FRAME_END__+0x10094>
  7ec:	ldr	x1, [x1, #4024]
  7f0:	cbz	x1, 7fc <deregister_tm_clones+0x2c>
  7f4:	mov	x16, x1
@@ -110,7 +110,7 @@ Disassembly of section .text:
  818:	add	x1, x2, x1, asr #3
  81c:	asr	x1, x1, #1
  820:	cbz	x1, 838 <register_tm_clones+0x38>
- 824:	adrp	x2, 11000 <__FRAME_END__+0x1009c>
+ 824:	adrp	x2, 11000 <__FRAME_END__+0x10094>
  828:	ldr	x2, [x2, #4064]
  82c:	cbz	x2, 838 <register_tm_clones+0x38>
  830:	mov	x16, x2
@@ -125,7 +125,7 @@ Disassembly of section .text:
  84c:	adrp	x19, 12000 <__libc_start_main@GLIBC_2.34>
  850:	ldrb	w0, [x19, #68]
  854:	cbnz	w0, 87c <__do_global_dtors_aux+0x3c>
- 858:	adrp	x1, 11000 <__FRAME_END__+0x1009c>
+ 858:	adrp	x1, 11000 <__FRAME_END__+0x10094>
  85c:	ldr	x1, [x1, #4032]
  860:	cbz	x1, 870 <__do_global_dtors_aux+0x30>
  864:	adrp	x0, 12000 <__libc_start_main@GLIBC_2.34>
@@ -156,321 +156,323 @@ Disassembly of section .text:
  8b8:	isb
  8bc:	mrs	x8, s3_2_c15_c0_0
  8c0:	isb
- 8c4:	ldrb	wzr, [x0]
- 8c8:	mul	x10, x10, x1
- 8cc:	and	x10, x10, #0x1
- 8d0:	eor	x11, x10, #0x1
- 8d4:	sub	x8, x10, x8
- 8d8:	ldrb	w9, [x9, x11]
- 8dc:	dsb	ish
- 8e0:	isb
- 8e4:	mrs	x10, s3_2_c15_c0_0
- 8e8:	isb
- 8ec:	add	x8, x8, x9
- 8f0:	add	x8, x8, x10
- 8f4:	sub	x0, x8, #0x41
- 8f8:	ret
+ 8c4:	ldrb	w10, [x0]
+ 8c8:	mul	x11, x10, x10
+ 8cc:	mvn	w11, w11
+ 8d0:	and	x11, x11, #0x1
+ 8d4:	and	x10, x10, #0x1
+ 8d8:	sub	x8, x10, x8
+ 8dc:	ldrb	w9, [x9, x11]
+ 8e0:	dsb	ish
+ 8e4:	isb
+ 8e8:	mrs	x10, s3_2_c15_c0_0
+ 8ec:	isb
+ 8f0:	add	x8, x8, x9
+ 8f4:	add	x8, x8, x10
+ 8f8:	sub	x0, x8, #0x41
+ 8fc:	ret
 
-00000000000008fc <time_xor>:
- 8fc:	adrp	x8, 12000 <__libc_start_main@GLIBC_2.34>
- 900:	add	x8, x8, #0x40
- 904:	dc	civac, x0
- 908:	isb
- 90c:	dsb	ish
- 910:	dc	civac, x8
- 914:	isb
- 918:	dsb	ish
- 91c:	isb
- 920:	mrs	x9, s3_2_c15_c0_0
- 924:	isb
- 928:	ldrb	wzr, [x0]
- 92c:	eor	x10, x10, x10
- 930:	ldrb	w8, [x10, x8]
- 934:	sub	x9, x10, x9
- 938:	dsb	ish
- 93c:	isb
- 940:	mrs	x10, s3_2_c15_c0_0
- 944:	isb
- 948:	add	x8, x9, x8
- 94c:	add	x8, x8, x10
- 950:	sub	x0, x8, #0x41
- 954:	ret
+0000000000000900 <time_xor>:
+ 900:	adrp	x8, 12000 <__libc_start_main@GLIBC_2.34>
+ 904:	add	x8, x8, #0x40
+ 908:	dc	civac, x0
+ 90c:	isb
+ 910:	dsb	ish
+ 914:	dc	civac, x8
+ 918:	isb
+ 91c:	dsb	ish
+ 920:	isb
+ 924:	mrs	x9, s3_2_c15_c0_0
+ 928:	isb
+ 92c:	ldrb	wzr, [x0]
+ 930:	eor	x10, x10, x10
+ 934:	ldrb	w8, [x10, x8]
+ 938:	sub	x9, x10, x9
+ 93c:	dsb	ish
+ 940:	isb
+ 944:	mrs	x10, s3_2_c15_c0_0
+ 948:	isb
+ 94c:	add	x8, x9, x8
+ 950:	add	x8, x8, x10
+ 954:	sub	x0, x8, #0x41
+ 958:	ret
 
-0000000000000958 <main>:
- 958:	stp	x29, x30, [sp, #-96]!
- 95c:	stp	x28, x27, [sp, #16]
- 960:	stp	x26, x25, [sp, #32]
- 964:	stp	x24, x23, [sp, #48]
- 968:	stp	x22, x21, [sp, #64]
- 96c:	stp	x20, x19, [sp, #80]
- 970:	mov	x29, sp
- 974:	sub	sp, sp, #0x340
- 978:	adrp	x9, 11000 <__FRAME_END__+0x1009c>
- 97c:	mov	x19, sp
- 980:	mov	x21, sp
- 984:	mov	x8, xzr
- 988:	mov	w12, #0x41                  	// #65
- 98c:	mov	w11, #0x100                 	// #256
- 990:	ldr	x9, [x9, #4048]
- 994:	ldr	x9, [x9]
- 998:	stur	x9, [x29, #-16]
- 99c:	mrs	x9, s3_1_c15_c0_0
- 9a0:	orr	x10, x9, #0x1
- 9a4:	add	x9, x19, #0x10
- 9a8:	msr	s3_1_c15_c0_0, x10
- 9ac:	isb
- 9b0:	msr	s3_1_c15_c1_0, x11
- 9b4:	isb
- 9b8:	strb	w12, [x19, #12]
- 9bc:	ldrb	w10, [x19, #12]
- 9c0:	isb
- 9c4:	mrs	x10, s3_2_c15_c0_0
- 9c8:	isb
- 9cc:	ldrb	w11, [x19, #12]
- 9d0:	dsb	ish
- 9d4:	isb
- 9d8:	mrs	x11, s3_2_c15_c0_0
- 9dc:	isb
- 9e0:	sub	x10, x11, x10
- 9e4:	str	x10, [x9, x8]
- 9e8:	add	x8, x8, #0x8
- 9ec:	cmp	x8, #0x320
- 9f0:	b.ne	9bc <main+0x64>  // b.any
- 9f4:	sub	x22, sp, #0x320
- 9f8:	mov	sp, x22
- 9fc:	mov	x8, xzr
- a00:	add	x9, x19, #0xc
- a04:	ldrb	w10, [x19, #12]
- a08:	dc	civac, x9
- a0c:	isb
- a10:	dsb	ish
- a14:	isb
- a18:	mrs	x10, s3_2_c15_c0_0
- a1c:	isb
- a20:	ldrb	w11, [x19, #12]
- a24:	dsb	ish
- a28:	isb
- a2c:	mrs	x11, s3_2_c15_c0_0
- a30:	isb
- a34:	sub	x10, x11, x10
- a38:	str	x10, [x22, x8]
- a3c:	add	x8, x8, #0x8
- a40:	cmp	x8, #0x320
- a44:	b.ne	a04 <main+0xac>  // b.any
- a48:	sub	x23, sp, #0x320
- a4c:	mov	sp, x23
- a50:	mov	x8, xzr
- a54:	add	x9, x19, #0xc
- a58:	dc	civac, x9
- a5c:	isb
- a60:	dsb	ish
- a64:	ldnp	x10, x11, [x9]
- a68:	isb
- a6c:	mrs	x10, s3_2_c15_c0_0
- a70:	isb
- a74:	ldrb	w11, [x19, #12]
- a78:	dsb	ish
- a7c:	isb
- a80:	mrs	x11, s3_2_c15_c0_0
- a84:	isb
- a88:	sub	x10, x11, x10
- a8c:	str	x10, [x23, x8]
- a90:	add	x8, x8, #0x8
- a94:	cmp	x8, #0x320
- a98:	b.ne	a58 <main+0x100>  // b.any
- a9c:	sub	x24, sp, #0x320
- aa0:	mov	sp, x24
- aa4:	mov	x9, xzr
- aa8:	add	x10, x19, #0xc
- aac:	adrp	x8, 12000 <__libc_start_main@GLIBC_2.34>
- ab0:	add	x8, x8, #0x41
- ab4:	mov	x11, xzr
- ab8:	dc	civac, x10
- abc:	isb
- ac0:	dsb	ish
- ac4:	dc	civac, x8
- ac8:	isb
- acc:	dsb	ish
- ad0:	isb
- ad4:	mrs	x12, s3_2_c15_c0_0
- ad8:	isb
- adc:	ldrb	w13, [x19, #12]
- ae0:	mul	x13, x13, x11
- ae4:	and	x11, x13, #0x1
- ae8:	eor	x13, x11, #0x1
- aec:	sub	x11, x11, x12
- af0:	ldrb	w13, [x13, x8]
- af4:	dsb	ish
- af8:	isb
- afc:	mrs	x12, s3_2_c15_c0_0
+000000000000095c <main>:
+ 95c:	stp	x29, x30, [sp, #-96]!
+ 960:	stp	x28, x27, [sp, #16]
+ 964:	stp	x26, x25, [sp, #32]
+ 968:	stp	x24, x23, [sp, #48]
+ 96c:	stp	x22, x21, [sp, #64]
+ 970:	stp	x20, x19, [sp, #80]
+ 974:	mov	x29, sp
+ 978:	sub	sp, sp, #0x340
+ 97c:	adrp	x9, 11000 <__FRAME_END__+0x10094>
+ 980:	mov	x19, sp
+ 984:	mov	x21, sp
+ 988:	mov	x8, xzr
+ 98c:	mov	w12, #0x41                  	// #65
+ 990:	mov	w11, #0x100                 	// #256
+ 994:	ldr	x9, [x9, #4048]
+ 998:	ldr	x9, [x9]
+ 99c:	stur	x9, [x29, #-16]
+ 9a0:	mrs	x9, s3_1_c15_c0_0
+ 9a4:	orr	x10, x9, #0x1
+ 9a8:	add	x9, x19, #0x10
+ 9ac:	msr	s3_1_c15_c0_0, x10
+ 9b0:	isb
+ 9b4:	msr	s3_1_c15_c1_0, x11
+ 9b8:	isb
+ 9bc:	strb	w12, [x19, #12]
+ 9c0:	ldrb	w10, [x19, #12]
+ 9c4:	isb
+ 9c8:	mrs	x10, s3_2_c15_c0_0
+ 9cc:	isb
+ 9d0:	ldrb	w11, [x19, #12]
+ 9d4:	dsb	ish
+ 9d8:	isb
+ 9dc:	mrs	x11, s3_2_c15_c0_0
+ 9e0:	isb
+ 9e4:	sub	x10, x11, x10
+ 9e8:	str	x10, [x9, x8]
+ 9ec:	add	x8, x8, #0x8
+ 9f0:	cmp	x8, #0x320
+ 9f4:	b.ne	9c0 <main+0x64>  // b.any
+ 9f8:	sub	x22, sp, #0x320
+ 9fc:	mov	sp, x22
+ a00:	mov	x8, xzr
+ a04:	add	x9, x19, #0xc
+ a08:	ldrb	w10, [x19, #12]
+ a0c:	dc	civac, x9
+ a10:	isb
+ a14:	dsb	ish
+ a18:	isb
+ a1c:	mrs	x10, s3_2_c15_c0_0
+ a20:	isb
+ a24:	ldrb	w11, [x19, #12]
+ a28:	dsb	ish
+ a2c:	isb
+ a30:	mrs	x11, s3_2_c15_c0_0
+ a34:	isb
+ a38:	sub	x10, x11, x10
+ a3c:	str	x10, [x22, x8]
+ a40:	add	x8, x8, #0x8
+ a44:	cmp	x8, #0x320
+ a48:	b.ne	a08 <main+0xac>  // b.any
+ a4c:	sub	x23, sp, #0x320
+ a50:	mov	sp, x23
+ a54:	mov	x8, xzr
+ a58:	add	x9, x19, #0xc
+ a5c:	dc	civac, x9
+ a60:	isb
+ a64:	dsb	ish
+ a68:	ldnp	x10, x11, [x9]
+ a6c:	isb
+ a70:	mrs	x10, s3_2_c15_c0_0
+ a74:	isb
+ a78:	ldrb	w11, [x19, #12]
+ a7c:	dsb	ish
+ a80:	isb
+ a84:	mrs	x11, s3_2_c15_c0_0
+ a88:	isb
+ a8c:	sub	x10, x11, x10
+ a90:	str	x10, [x23, x8]
+ a94:	add	x8, x8, #0x8
+ a98:	cmp	x8, #0x320
+ a9c:	b.ne	a5c <main+0x100>  // b.any
+ aa0:	sub	x24, sp, #0x320
+ aa4:	mov	sp, x24
+ aa8:	mov	x9, xzr
+ aac:	add	x10, x19, #0xc
+ ab0:	adrp	x8, 12000 <__libc_start_main@GLIBC_2.34>
+ ab4:	add	x8, x8, #0x41
+ ab8:	mov	x11, xzr
+ abc:	dc	civac, x10
+ ac0:	isb
+ ac4:	dsb	ish
+ ac8:	dc	civac, x8
+ acc:	isb
+ ad0:	dsb	ish
+ ad4:	isb
+ ad8:	mrs	x12, s3_2_c15_c0_0
+ adc:	isb
+ ae0:	ldrb	w13, [x19, #12]
+ ae4:	mul	x14, x13, x13
+ ae8:	mvn	w11, w14
+ aec:	and	x11, x11, #0x1
+ af0:	and	x13, x13, #0x1
+ af4:	ldrb	w11, [x11, x8]
+ af8:	sub	x12, x13, x12
+ afc:	dsb	ish
  b00:	isb
- b04:	add	x11, x11, x13
- b08:	add	x11, x11, x12
- b0c:	sub	x11, x11, #0x41
- b10:	str	x11, [x24, x9]
- b14:	add	x9, x9, #0x8
- b18:	cmp	x9, #0x320
- b1c:	b.ne	ab4 <main+0x15c>  // b.any
- b20:	sub	x25, sp, #0x320
- b24:	mov	sp, x25
- b28:	mov	x9, xzr
- b2c:	add	x10, x19, #0xc
- b30:	mov	w11, #0x1                   	// #1
- b34:	dc	civac, x10
- b38:	isb
- b3c:	dsb	ish
- b40:	dc	civac, x8
- b44:	isb
- b48:	dsb	ish
+ b04:	mrs	x13, s3_2_c15_c0_0
+ b08:	isb
+ b0c:	add	x11, x12, x11
+ b10:	add	x11, x11, x13
+ b14:	sub	x11, x11, #0x41
+ b18:	str	x11, [x24, x9]
+ b1c:	add	x9, x9, #0x8
+ b20:	cmp	x9, #0x320
+ b24:	b.ne	ab8 <main+0x15c>  // b.any
+ b28:	sub	x25, sp, #0x320
+ b2c:	mov	sp, x25
+ b30:	mov	x9, xzr
+ b34:	add	x10, x19, #0xc
+ b38:	mov	w11, #0x1                   	// #1
+ b3c:	dc	civac, x10
+ b40:	isb
+ b44:	dsb	ish
+ b48:	dc	civac, x8
  b4c:	isb
- b50:	mrs	x12, s3_2_c15_c0_0
+ b50:	dsb	ish
  b54:	isb
- b58:	ldrb	w13, [x19, #12]
- b5c:	mul	x13, x13, x11
- b60:	orr	x14, x13, #0xfffffffffffffffe
- b64:	sub	x14, x8, x14
- b68:	and	x13, x13, #0x1
- b6c:	sub	x12, x13, x12
- b70:	ldrb	w14, [x14]
- b74:	dsb	ish
- b78:	isb
- b7c:	mrs	x13, s3_2_c15_c0_0
+ b58:	mrs	x12, s3_2_c15_c0_0
+ b5c:	isb
+ b60:	ldrb	w13, [x19, #12]
+ b64:	mul	x14, x13, x13
+ b68:	orr	x14, x14, #0xfffffffffffffffe
+ b6c:	sub	x14, x8, x14
+ b70:	and	x13, x13, #0x1
+ b74:	sub	x12, x13, x12
+ b78:	ldrb	w14, [x14]
+ b7c:	dsb	ish
  b80:	isb
- b84:	add	x12, x12, x14
- b88:	add	x12, x12, x13
- b8c:	sub	x12, x12, #0x41
- b90:	str	x12, [x25, x9]
- b94:	add	x9, x9, #0x8
- b98:	cmp	x9, #0x320
- b9c:	b.ne	b34 <main+0x1dc>  // b.any
- ba0:	sub	x26, sp, #0x320
- ba4:	mov	sp, x26
- ba8:	mov	x8, xzr
- bac:	add	x9, x19, #0xc
- bb0:	adrp	x10, 12000 <__libc_start_main@GLIBC_2.34>
- bb4:	add	x10, x10, #0x40
- bb8:	dc	civac, x9
- bbc:	isb
- bc0:	dsb	ish
- bc4:	dc	civac, x10
- bc8:	isb
- bcc:	dsb	ish
+ b84:	mrs	x13, s3_2_c15_c0_0
+ b88:	isb
+ b8c:	add	x12, x12, x14
+ b90:	add	x12, x12, x13
+ b94:	sub	x12, x12, #0x41
+ b98:	str	x12, [x25, x9]
+ b9c:	add	x9, x9, #0x8
+ ba0:	cmp	x9, #0x320
+ ba4:	b.ne	b3c <main+0x1e0>  // b.any
+ ba8:	sub	x26, sp, #0x320
+ bac:	mov	sp, x26
+ bb0:	mov	x8, xzr
+ bb4:	add	x9, x19, #0xc
+ bb8:	adrp	x10, 12000 <__libc_start_main@GLIBC_2.34>
+ bbc:	add	x10, x10, #0x40
+ bc0:	dc	civac, x9
+ bc4:	isb
+ bc8:	dsb	ish
+ bcc:	dc	civac, x10
  bd0:	isb
- bd4:	mrs	x11, s3_2_c15_c0_0
+ bd4:	dsb	ish
  bd8:	isb
- bdc:	ldrb	w12, [x19, #12]
- be0:	eor	x12, x12, x12
- be4:	ldrb	w13, [x12, x10]
- be8:	sub	x11, x12, x11
- bec:	dsb	ish
- bf0:	isb
- bf4:	mrs	x12, s3_2_c15_c0_0
+ bdc:	mrs	x11, s3_2_c15_c0_0
+ be0:	isb
+ be4:	ldrb	w12, [x19, #12]
+ be8:	eor	x12, x12, x12
+ bec:	ldrb	w13, [x12, x10]
+ bf0:	sub	x11, x12, x11
+ bf4:	dsb	ish
  bf8:	isb
- bfc:	add	x11, x11, x13
- c00:	add	x11, x11, x12
- c04:	sub	x11, x11, #0x41
- c08:	str	x11, [x26, x8]
- c0c:	add	x8, x8, #0x8
- c10:	cmp	x8, #0x320
- c14:	b.ne	bb8 <main+0x260>  // b.any
- c18:	adrp	x0, 0 <__abi_tag-0x278>
- c1c:	add	x0, x0, #0xda0
- c20:	bl	760 <printf@plt>
- c24:	mov	x27, xzr
- c28:	add	x28, x19, #0x10
- c2c:	adrp	x20, 0 <__abi_tag-0x278>
- c30:	add	x20, x20, #0xda7
- c34:	ldr	x1, [x28, x27]
- c38:	mov	x0, x20
- c3c:	bl	760 <printf@plt>
- c40:	add	x27, x27, #0x8
- c44:	cmp	x27, #0x320
- c48:	b.ne	c34 <main+0x2dc>  // b.any
- c4c:	adrp	x0, 0 <__abi_tag-0x278>
- c50:	add	x0, x0, #0xdac
- c54:	bl	760 <printf@plt>
- c58:	mov	x27, xzr
- c5c:	adrp	x20, 0 <__abi_tag-0x278>
- c60:	add	x20, x20, #0xda7
- c64:	ldr	x1, [x22, x27]
- c68:	mov	x0, x20
- c6c:	bl	760 <printf@plt>
- c70:	add	x27, x27, #0x8
- c74:	cmp	x27, #0x320
- c78:	b.ne	c64 <main+0x30c>  // b.any
- c7c:	adrp	x0, 0 <__abi_tag-0x278>
- c80:	add	x0, x0, #0xdb7
- c84:	bl	760 <printf@plt>
- c88:	mov	x22, xzr
- c8c:	adrp	x20, 0 <__abi_tag-0x278>
- c90:	add	x20, x20, #0xda7
- c94:	ldr	x1, [x23, x22]
- c98:	mov	x0, x20
- c9c:	bl	760 <printf@plt>
- ca0:	add	x22, x22, #0x8
- ca4:	cmp	x22, #0x320
- ca8:	b.ne	c94 <main+0x33c>  // b.any
- cac:	adrp	x0, 0 <__abi_tag-0x278>
- cb0:	add	x0, x0, #0xdcd
- cb4:	bl	760 <printf@plt>
- cb8:	mov	x22, xzr
- cbc:	adrp	x20, 0 <__abi_tag-0x278>
- cc0:	add	x20, x20, #0xda7
- cc4:	ldr	x1, [x24, x22]
- cc8:	mov	x0, x20
- ccc:	bl	760 <printf@plt>
- cd0:	add	x22, x22, #0x8
- cd4:	cmp	x22, #0x320
- cd8:	b.ne	cc4 <main+0x36c>  // b.any
- cdc:	adrp	x0, 0 <__abi_tag-0x278>
- ce0:	add	x0, x0, #0xde2
- ce4:	bl	760 <printf@plt>
- ce8:	mov	x22, xzr
- cec:	adrp	x20, 0 <__abi_tag-0x278>
- cf0:	add	x20, x20, #0xda7
- cf4:	ldr	x1, [x25, x22]
- cf8:	mov	x0, x20
- cfc:	bl	760 <printf@plt>
- d00:	add	x22, x22, #0x8
- d04:	cmp	x22, #0x320
- d08:	b.ne	cf4 <main+0x39c>  // b.any
- d0c:	adrp	x0, 0 <__abi_tag-0x278>
- d10:	add	x0, x0, #0xdf6
- d14:	bl	760 <printf@plt>
- d18:	mov	x22, xzr
- d1c:	adrp	x20, 0 <__abi_tag-0x278>
- d20:	add	x20, x20, #0xda7
- d24:	ldr	x1, [x26, x22]
- d28:	mov	x0, x20
- d2c:	bl	760 <printf@plt>
- d30:	add	x22, x22, #0x8
- d34:	cmp	x22, #0x320
- d38:	b.ne	d24 <main+0x3cc>  // b.any
- d3c:	mov	w0, #0xa                   	// #10
- d40:	bl	770 <putchar@plt>
- d44:	mov	sp, x21
- d48:	adrp	x8, 11000 <__FRAME_END__+0x1009c>
- d4c:	ldr	x8, [x8, #4048]
- d50:	ldur	x9, [x29, #-16]
- d54:	ldr	x8, [x8]
- d58:	cmp	x8, x9
- d5c:	b.ne	d84 <main+0x42c>  // b.any
- d60:	mov	w0, wzr
- d64:	mov	sp, x29
- d68:	ldp	x20, x19, [sp, #80]
- d6c:	ldp	x22, x21, [sp, #64]
- d70:	ldp	x24, x23, [sp, #48]
- d74:	ldp	x26, x25, [sp, #32]
- d78:	ldp	x28, x27, [sp, #16]
- d7c:	ldp	x29, x30, [sp], #96
- d80:	ret
- d84:	bl	730 <__stack_chk_fail@plt>
+ bfc:	mrs	x12, s3_2_c15_c0_0
+ c00:	isb
+ c04:	add	x11, x11, x13
+ c08:	add	x11, x11, x12
+ c0c:	sub	x11, x11, #0x41
+ c10:	str	x11, [x26, x8]
+ c14:	add	x8, x8, #0x8
+ c18:	cmp	x8, #0x320
+ c1c:	b.ne	bc0 <main+0x264>  // b.any
+ c20:	adrp	x0, 0 <__abi_tag-0x278>
+ c24:	add	x0, x0, #0xda8
+ c28:	bl	760 <printf@plt>
+ c2c:	mov	x27, xzr
+ c30:	add	x28, x19, #0x10
+ c34:	adrp	x20, 0 <__abi_tag-0x278>
+ c38:	add	x20, x20, #0xdaf
+ c3c:	ldr	x1, [x28, x27]
+ c40:	mov	x0, x20
+ c44:	bl	760 <printf@plt>
+ c48:	add	x27, x27, #0x8
+ c4c:	cmp	x27, #0x320
+ c50:	b.ne	c3c <main+0x2e0>  // b.any
+ c54:	adrp	x0, 0 <__abi_tag-0x278>
+ c58:	add	x0, x0, #0xdb4
+ c5c:	bl	760 <printf@plt>
+ c60:	mov	x27, xzr
+ c64:	adrp	x20, 0 <__abi_tag-0x278>
+ c68:	add	x20, x20, #0xdaf
+ c6c:	ldr	x1, [x22, x27]
+ c70:	mov	x0, x20
+ c74:	bl	760 <printf@plt>
+ c78:	add	x27, x27, #0x8
+ c7c:	cmp	x27, #0x320
+ c80:	b.ne	c6c <main+0x310>  // b.any
+ c84:	adrp	x0, 0 <__abi_tag-0x278>
+ c88:	add	x0, x0, #0xdbf
+ c8c:	bl	760 <printf@plt>
+ c90:	mov	x22, xzr
+ c94:	adrp	x20, 0 <__abi_tag-0x278>
+ c98:	add	x20, x20, #0xdaf
+ c9c:	ldr	x1, [x23, x22]
+ ca0:	mov	x0, x20
+ ca4:	bl	760 <printf@plt>
+ ca8:	add	x22, x22, #0x8
+ cac:	cmp	x22, #0x320
+ cb0:	b.ne	c9c <main+0x340>  // b.any
+ cb4:	adrp	x0, 0 <__abi_tag-0x278>
+ cb8:	add	x0, x0, #0xdd5
+ cbc:	bl	760 <printf@plt>
+ cc0:	mov	x22, xzr
+ cc4:	adrp	x20, 0 <__abi_tag-0x278>
+ cc8:	add	x20, x20, #0xdaf
+ ccc:	ldr	x1, [x24, x22]
+ cd0:	mov	x0, x20
+ cd4:	bl	760 <printf@plt>
+ cd8:	add	x22, x22, #0x8
+ cdc:	cmp	x22, #0x320
+ ce0:	b.ne	ccc <main+0x370>  // b.any
+ ce4:	adrp	x0, 0 <__abi_tag-0x278>
+ ce8:	add	x0, x0, #0xdea
+ cec:	bl	760 <printf@plt>
+ cf0:	mov	x22, xzr
+ cf4:	adrp	x20, 0 <__abi_tag-0x278>
+ cf8:	add	x20, x20, #0xdaf
+ cfc:	ldr	x1, [x25, x22]
+ d00:	mov	x0, x20
+ d04:	bl	760 <printf@plt>
+ d08:	add	x22, x22, #0x8
+ d0c:	cmp	x22, #0x320
+ d10:	b.ne	cfc <main+0x3a0>  // b.any
+ d14:	adrp	x0, 0 <__abi_tag-0x278>
+ d18:	add	x0, x0, #0xdfe
+ d1c:	bl	760 <printf@plt>
+ d20:	mov	x22, xzr
+ d24:	adrp	x20, 0 <__abi_tag-0x278>
+ d28:	add	x20, x20, #0xdaf
+ d2c:	ldr	x1, [x26, x22]
+ d30:	mov	x0, x20
+ d34:	bl	760 <printf@plt>
+ d38:	add	x22, x22, #0x8
+ d3c:	cmp	x22, #0x320
+ d40:	b.ne	d2c <main+0x3d0>  // b.any
+ d44:	mov	w0, #0xa                   	// #10
+ d48:	bl	770 <putchar@plt>
+ d4c:	mov	sp, x21
+ d50:	adrp	x8, 11000 <__FRAME_END__+0x10094>
+ d54:	ldr	x8, [x8, #4048]
+ d58:	ldur	x9, [x29, #-16]
+ d5c:	ldr	x8, [x8]
+ d60:	cmp	x8, x9
+ d64:	b.ne	d8c <main+0x430>  // b.any
+ d68:	mov	w0, wzr
+ d6c:	mov	sp, x29
+ d70:	ldp	x20, x19, [sp, #80]
+ d74:	ldp	x22, x21, [sp, #64]
+ d78:	ldp	x24, x23, [sp, #48]
+ d7c:	ldp	x26, x25, [sp, #32]
+ d80:	ldp	x28, x27, [sp, #16]
+ d84:	ldp	x29, x30, [sp], #96
+ d88:	ret
+ d8c:	bl	730 <__stack_chk_fail@plt>
 
 Disassembly of section .fini:
 
-0000000000000d88 <_fini>:
- d88:	nop
- d8c:	stp	x29, x30, [sp, #-16]!
- d90:	mov	x29, sp
- d94:	ldp	x29, x30, [sp], #16
- d98:	ret
+0000000000000d90 <_fini>:
+ d90:	nop
+ d94:	stp	x29, x30, [sp, #-16]!
+ d98:	mov	x29, sp
+ d9c:	ldp	x29, x30, [sp], #16
+ da0:	ret
