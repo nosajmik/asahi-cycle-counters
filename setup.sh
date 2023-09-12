@@ -23,5 +23,7 @@ sudo cpupower -c 4-7 frequency-set -f 9999999
 
 echo "Testing all of the above and taskset..."
 cd /home/$USER/Desktop/asahi-cycle-counters
+taskset -c 4 ./cycles_and_flush
 taskset -c 5 ./cycles_and_flush
-
+taskset -c 6 ./cycles_and_flush
+taskset -c 7 ./cycles_and_flush

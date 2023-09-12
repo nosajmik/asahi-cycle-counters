@@ -218,22 +218,22 @@ int main() {
     for (int i = 0; i < TRIALS; i++) {
         printf("%lu ", misses[i]);
     }
-    printf("\n\nNontemporal Loads: ");
-    for (int i = 0; i < TRIALS; i++) {
-        printf("%lu ", nontemporal[i]);
-    }
-    printf("\n\nMultiply by zero: ");
-    for (int i = 0; i < TRIALS; i++) {
-        printf("%lu ", mulbyzero[i]);
-    }
-    printf("\n\nMultiply by one: ");
-    for (int i = 0; i < TRIALS; i++) {
-        printf("%lu ", mulbyone[i]);
-    }
-    printf("\n\nXor with itself: ");
-    for (int i = 0; i < TRIALS; i++) {
-        printf("%lu ", xor[i]);
-    }
+    // printf("\n\nNontemporal Loads: ");
+    // for (int i = 0; i < TRIALS; i++) {
+    //     printf("%lu ", nontemporal[i]);
+    // }
+    // printf("\n\nMultiply by zero: ");
+    // for (int i = 0; i < TRIALS; i++) {
+    //     printf("%lu ", mulbyzero[i]);
+    // }
+    // printf("\n\nMultiply by one: ");
+    // for (int i = 0; i < TRIALS; i++) {
+    //     printf("%lu ", mulbyone[i]);
+    // }
+    // printf("\n\nXor with itself: ");
+    // for (int i = 0; i < TRIALS; i++) {
+    //     printf("%lu ", xor[i]);
+    // }
     printf("\n");
 
     return 0;
