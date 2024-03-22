@@ -32,3 +32,16 @@ taskset -c 4 ./cycles_and_flush
 taskset -c 5 ./cycles_and_flush
 taskset -c 6 ./cycles_and_flush
 taskset -c 7 ./cycles_and_flush
+
+echo "Inserting HWP disable kernel module..."
+cd /home/$USER/Desktop/m2-research/module
+sudo taskset -c 4 insmod prefetch.ko
+sudo rmmod prefetch
+sudo taskset -c 5 insmod prefetch.ko
+sudo rmmod prefetch
+sudo taskset -c 6 insmod prefetch.ko
+sudo rmmod prefetch
+sudo taskset -c 7 insmod prefetch.ko
+sudo rmmod prefetch
+dmesg
+
